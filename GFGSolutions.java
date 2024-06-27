@@ -68,4 +68,30 @@ class GFGSolutions
         }
         return -1;
     }
+
+    //problem link - https://www.geeksforgeeks.org/problems/longest-consecutive-subsequence2449/1
+	static int findLongestConseqSubseq(int arr[], int N)
+	{
+	   // add your code here
+	   if (N == 0) {
+	       return 0;
+	   }
+	   Set<Integer> set = new HashSet<>();
+	   int longest = 1;
+	   for (int num: arr) {
+	       set.add(num);
+	   }
+	   for (int num: set) {
+	       if (!set.contains(num-1)) {
+	           int count = 1;
+	           int curr = num;
+	           while (set.contains(curr+1)) {
+	               curr++;
+	               count++;
+	           }
+	           longest = Math.max(longest, count);
+	       }
+	   }
+	   return longest;
+	}
 }
