@@ -96,8 +96,7 @@ class GFGSolutions
 	}
 	
 	// problem link - https://www.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1
-	public String FirstNonRepeating(String A)
-	    {
+	public String FirstNonRepeating(String A){
 	        // code here
 	        ArrayList<Character> list = new ArrayList<>(); 
 	        HashMap<Character, Integer> map = new HashMap<>();
@@ -118,4 +117,63 @@ class GFGSolutions
 	        }
 	        return sb.toString();
 	    }
+
+	// problem link - https://www.geeksforgeeks.org/problems/array-pair-sum-divisibility-problem3257/1
+	 public boolean canPair(int[] nums, int k) {
+		 if (nums.length % 2 != 0) {
+			 return false; 
+		 }
+		 int freq[] = new int[k];
+		 for (int num: nums) {
+			 int y = num % k;
+			 if (freq[(k-y)%k] != 0) {
+				 freq[(k-y)%k]--
+			 } else {
+				freq[k]++; 
+			 }
+		 }
+		 for (int i: freq) {
+			 if (i != 0) {
+				 return false;
+			 }
+		 }
+		 return true;
+	 }
+
+	// problem link - https://www.geeksforgeeks.org/problems/path-in-matrix3805/1
+    static int maximumPath(int N, int Matrix[][]) {
+
+        int m = Matrix[0].length;
+
+        int dp[][] = new int[N][m];
+        for (int row[] : dp)
+            Arrays.fill(row, -1);
+
+        int maxi = Integer.MIN_VALUE;
+
+        for (int j = 0; j < m; j++) {
+            int ans = getMaxUtil(N - 1, j, m, Matrix, dp);
+            maxi = Math.max(maxi, ans);
+        }
+
+        return maxi;
+    }
+    static int getMaxUtil(int i, int j, int m, int[][] matrix, int[][] dp) {
+        // Base Conditions
+        if (j < 0 || j >= m)
+            return (int) Math.pow(-10, 9);
+        if (i == 0)
+            return matrix[0][j];
+
+        if (dp[i][j] != -1)
+            return dp[i][j];
+
+        // Calculate three possible paths: moving up, left diagonal, and right diagonal
+        int up = matrix[i][j] + getMaxUtil(i - 1, j, m, matrix, dp);
+        int leftDiagonal = matrix[i][j] + getMaxUtil(i - 1, j - 1, m, matrix, dp);
+        int rightDiagonal = matrix[i][j] + getMaxUtil(i - 1, j + 1, m, matrix, dp);
+
+        // Store the maximum of the three paths in dp
+        return dp[i][j] = Math.max(up, Math.max(leftDiagonal, rightDiagonal));
+    }
 }
