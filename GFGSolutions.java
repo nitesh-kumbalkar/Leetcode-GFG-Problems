@@ -9,6 +9,13 @@ class GFGSolutions
             this.y = y;
         }
     }
+    static class BFSElement {
+    	int i, j;
+    	BFSElement(int i, int j) {
+		this.i = i;
+		this.j = j;
+    	}
+    }
     // problem link - https://www.geeksforgeeks.org/problems/rotten-oranges2536/1
     public int orangesRotting(int[][] grid)
     {
@@ -175,5 +182,70 @@ class GFGSolutions
 
         // Store the maximum of the three paths in dp
         return dp[i][j] = Math.max(up, Math.max(leftDiagonal, rightDiagonal));
+    }
+
+// problem link - https://www.geeksforgeeks.org/problems/find-whether-path-exist5238/1
+	public boolean is_Possible(int[][] grid) {
+	
+	        Queue<BFSElement> q = new LinkedList<>();
+	        int R = grid.length;
+	        int C = grid[0].length;
+	        
+	        for (int i = 0; i < R; ++i) {
+	            for (int j = 0; j < C; ++j) {
+	                if (grid[i][j] == 1) {
+	                    q.add(new BFSElement(i, j));
+	                    break;
+	                }
+	            }
+	        }
+	        while (q.size() != 0) {
+	            BFSElement x = q.peek();
+	            q.remove();
+	            int i = x.i;
+	            int j = x.j;
+	
+	            if (i < 0 || i >= R || j < 0 || j >= C) {
+	                continue;
+	            }
+	 
+	            if (grid[i][j] == 0) {
+	                continue;
+	            }
+	            
+	            if (grid[i][j] == 2) {
+	                return true;
+	            }
+	 
+	            // marking as wall upon successful visitation
+	            grid[i][j] = 0;
+	 
+	            // pushing to queue u=(i,j+1),u=(i,j-1)
+	            // u=(i+1,j),u=(i-1,j)
+	            for (int k = -1; k <= 1; k += 2) {
+	                q.add(new BFSElement(i + k, j));
+	                q.add(new BFSElement(i, j + k));
+	            }
+	        }
+	        return false;
+    }
+
+// problem link - https://www.geeksforgeeks.org/problems/implement-atoi/1
+    public int atoi(String s) {
+        int res = 0;
+        int sign = 1;
+        int i = 0;
+        if (s.charAt(0) == '-') {
+            sign = -1;
+            i++;
+        }
+        for (; i < s.length(); ++i) {
+            if (!Character.isDigit(s.charAt(i))) {
+                return -1;
+            }
+             res = res * 10 + s.charAt(i) - '0';
+        }
+           
+        return sign * res;
     }
 }
