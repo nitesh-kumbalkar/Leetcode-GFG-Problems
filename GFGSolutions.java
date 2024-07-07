@@ -248,4 +248,43 @@ class GFGSolutions
            
         return sign * res;
     }
+
+// problem link - https://www.geeksforgeeks.org/problems/steps-by-knight5927/1
+   public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N) {
+        // Code here
+        int[] dx = {-2, -2, -1, -1, 1, 1, 2, 2};
+        int[] dy = {-1, 1, -2, 2, -2, 2, -1, 1};
+        
+        Queue<Cell> queue = new LinkedList<>();
+        queue.add(new Cell(KnightPos[0], KnightPos[1], 0));
+        
+        Cell t;
+        int x, y;
+        boolean visited[][] = new boolean[N+1][N+1];
+        visited[KnightPos[0]][KnightPos[1]] = true;
+        
+        while (!queue.isEmpty()) {
+            t = queue.poll();
+            
+            if (t.x == TargetPos[0] && t.y == TargetPos[1]) {
+                return t.dis;
+            }
+            
+            for (int i=0; i<8; i++) {
+                x = t.x + dx[i];
+                y = t.y + dy[i];
+                
+                if (isSafe(x, y, N) && !visited[x][y]) {
+                    visited[x][y] = true;
+                    queue.add(new Cell(x, y, t.dis+1));
+                }
+            }
+        }
+        return Integer.MAX_VALUE;     
+    }
+    static boolean isSafe(int x, int y, int N) {
+        if (x >= 1 && x <= N && y >= 1 && y <= N)
+            return true;
+        return false;
+    }
 }
